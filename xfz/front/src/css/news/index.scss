@@ -1,0 +1,193 @@
+// 可以加.scss也可以不加
+@import "../common/header.scss";
+@import "../common/body";
+@import "../common/footer";
+@import "../common/news_list";
+
+body{
+	background: #f2f2f2;
+}
+
+// 中间内容的轮播图
+.main{
+	.wrapper{
+		.main-content-wrapper{
+			// 轮播图部分
+			.banner-group{
+				width: 100%;
+				height: $bannerHeight;
+				// 其实下面这行代码可以不写，因为banner-group会被图片填充
+				background: #0e275e;
+				// 里面的每个li标签是绝对定位，要相对外面这个轮播窗口做绝对定位
+				// 默认为静态定位(static)，如果不去更改里面标签的left等值，其实static和relative是一样的(都会去遵循网页的文档流规则)
+				// 相对定位比静态定位多的功能就是，如果里面的标签指定了left等值，就可以使得里面标签相对当前盒子以left等值进行位置偏移
+				position: relative;
+				// 将超出banner-group盒子的图片隐藏掉(假如有4张轮播图，那就隐藏掉其它3张)
+				overflow: hidden;
+				// 解决鼠标上下滚动，轮播图片会遮住导航条问题，解决办法就是设置z-index(让导航条在轮播图上面即可)(导航条的z-index设置为100)
+				z-index: 0;
+				.banner-ul{
+					// 里面的li标签都浮动起来了，为了避免外面的盒子就获取不到里面盒子的高度
+					overflow: hidden;
+					// 轮播图宽度(不应该写死，在js中处理)
+					//width: $bannerWidth*4;
+					// 为了使得轮播过程可以通过修改距离banner-ul这个盒子的left值来实现，要先把这个盒子改为绝对定位
+					position: absolute;
+					// 其实相对定位比绝对定位就是多了一个设置上下左右的偏移，其它完全一样，这里默认偏移为0
+					left: 0;
+					li{
+						// 为了使得所有li标签只占据一行
+						float: left;
+						width: $bannerWidth;
+						height: $bannerHeight;
+						// 设置图片设置宽高和外面的li标签宽高一样，这样图片就可以正好适合到li标签这个盒子
+						img{
+							width: $bannerWidth;
+							height: $bannerHeight;
+						}
+					}
+				}
+				.arrow{
+					// 这里左右两个箭头其实不是图标，而是html中的一种特殊字体，
+					// 设置箭头字体
+					font-family: Helvetica Neue,Helvetica,Arial,sans-serif;
+					font-size: 70px;
+					color: #fff;
+					// 如果不加这行代码，箭头会被banner-ul给挡住而显示不出来，所以要把箭头放到banner-ul上面，更改一下定位即可
+					// 现在箭头一个靠左一个靠右，如果采用流式布局的话，不太好做，而采用绝对定位的话，只要知道上下左/右距离即可
+					// 绝对定位，那它就会往外找，直到找到第一个相对定位(这里是banner-group)
+					position: absolute;
+					// 左右箭头公共样式
+					top: 50%;
+					margin-top: -45px;
+					// 鼠标移到箭头上时显示小手
+					cursor: pointer;
+					// 默认情况是不显示箭头(因为默认情况鼠标没有移到轮播窗口)
+					display: none;
+				}
+				.left-arrow{
+					left: 20px;
+				}
+				.right-arrow{
+					right: 20px;
+				}
+				// 轮播图包裹小点点的大盒子
+				// 宽为版心宽度的盒子(里面有一个包含4个点的盒子page-control)
+				.page-control-group{
+					// 使用绝对定位比较方便
+					position: absolute;
+					left: 0;
+					right: 0;
+					bottom: 20px;
+					// 轮播图包裹小点点的小盒子
+					.page-control{
+						// 这个盒子在page-control-group盒子中居中
+						margin: 0 auto;
+						// 由于li标签设置浮动了，为避免外面的盒子就获取不到里面盒子(4个li标签)的高度的情况
+						overflow: hidden;
+						// 如果不设置宽度，那4个圆点不会居中(不应该写死，在js中处理)
+						//width: 12*4px + 8*2px + 16*3px;
+						li{
+							width: 12px;
+							height: 12px;
+							border: 1px solid #fff;
+							// 使得每个方形盒子变为圆形
+							border-radius: 50%;
+							// 使得4个盒子只占据一行
+							float: left;
+							// 每个圆点间上下间距为0，左右为8px
+							margin: 0 8px;
+							// 向内设置圆宽(默认为content-box：向外设置圆宽)
+							// 如果这里不设置向内，那什么计算好的宽度就会不够
+							box-sizing: border-box;
+							// 当鼠标移到点上时会变成小手
+							cursor: pointer;
+							// 圆点处于选中状态时，背景颜色为白色
+							&.active{
+								background: #fff;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+// 中间内容的新闻页面
+// 这里就不继续放到上面的.main来写了，因为上面代码已经比较多了，所以分出来写
+.main{
+	.wrapper{
+		.main-content-wrapper{
+			.list-outer-group{
+				background: #fff;
+				// 距离轮播图盒子14px
+				margin-top: 14px;
+				// 新闻内容的导航条部分
+				.list-tab{
+					width: 100%;
+					height: 66px;
+					// 里面的li标签要排成一行，所以外面的ul盒子要清除浮动(当然这里可以不写，因为已经设置了高度，即超出这个高度部分隐藏)
+					overflow: hidden;
+					// 新闻菜单栏上下的边框(所以左右边框为none)(下面3行代码)
+					border: 1px solid #eee;
+					border-left: none;
+					border-right: none;
+					li{
+						// 浮动，使得所有li标签只占一行
+						float: left;
+						// 设置每个菜单选项的左右内边距
+						padding: 0 10px;
+						// 为了使得菜单(li标签)处于ul标签上下居中位置
+						margin-top: 20px;
+						// 想要设置a标签的字体颜色必须在a标签中设置(在外面的li标签设置是没有效果的)
+						a{
+							color: #878787;
+						}
+						// 给第一个li标签添加一个左侧边距
+						// 找到第一个li标签(first-of-type：第一个li标签)
+						&:first-of-type{
+							border-left: 5px solid $themeColor;
+						}
+						// 设置被选中时，字体的颜色
+						&.active{
+							// 要想设置a标签里的字体颜色，必须在a标签中设置才行
+							a{
+								color: #212121;
+							}
+						}
+					}
+				}
+				// 新闻内容的具体新闻部分
+				.list-inner-group{
+					@include news_list;
+				}
+				// 加载更多按钮
+				.load-more-group{
+					// 距离具体新闻盒子20px(内边距)
+					padding: 20px 0;
+					// 如果你一个盒子想要里面的行内元素盒子(这里是按钮)居中，那就给外面盒子加上text-align:center
+					text-align: center;
+					// 加载更多按钮，button是一个行内元素
+					.load-more{
+						width: 402px;
+						height: 40px;
+						background: #d2dcea;
+						color: #6d85ac;
+						// 不同浏览器处理button时会有不同边框样式(这里是黑边框)，我们只需要把默认边框设置为none即可
+						border: none;
+						// 但我们点一下按钮又会出现一个蓝色边框，同样我们把outline设置为none即可
+						outline: none;
+						// 鼠标移到按钮上显示小手
+						cursor: pointer;
+					}
+
+				}
+			}
+		}
+	}
+}
+
+
+
+

@@ -1,0 +1,163 @@
+// 可以加.scss也可以不加
+@import "../common/header.scss";
+@import "../common/body";
+@import "../common/footer";
+@import "course_nav";
+
+// 课程详情页面
+.main{
+    .wrapper{
+        margin-top: 20px;
+        // 课程详情页面宽度比版心宽度小一点，所以这里具体指定一下
+        width: 1070px;
+        .course-wrapper{
+            background: #fff;
+            .course-info{
+                padding: 20px;
+                .course-title{
+                    color: $mainFontColor;
+                    font-size: 20px;
+                }
+                .price-group{
+                    margin-top: 20px;
+                    overflow: hidden;
+                    // 分享至的微信和微博logo图标就不去写了(前面写过了，就不浪费时间了)
+                    .share-group{
+                        float: left;
+                        .title{
+                            color: $assistFontColor;
+                            font-size: 14px;
+                        }
+                    }
+                    .buy-group{
+                        float: right;
+                        .price{
+                            font-size: 16px;
+                        }
+                        .free{
+                            color: $freeColor;
+                        }
+                        .pay{
+                            color: $payColor;
+                        }
+                        .buy-btn{
+                            color: #fff;
+                            background: #ff8d3f;
+                            height: 40px;
+                            width: 120px;
+                            // 如果不写下面这行代码那设置的宽高并没有效果，为什么？
+                            // 因为这个立即购买是一个a标签(行内元素)，而想给行内元素指定宽高是不行的，我们需要把它转换成行内块元素
+                            // (行内块元素既满足行内元素特征：不会占据一整行，而是有多宽占多宽，又满足块级元素特性：可以设置宽高)
+                            display: inline-block;
+                            // 文本左右居中
+                            text-align: center;
+                            // 文本上下居中(行高等于buy-btn盒子的高度)
+                            line-height: 40px;
+                            border-radius: 5px;
+                            margin-left: 20px;
+                        }
+                    }
+                }
+            }
+            // 视频播放，这里先用一个盒子进行占位，后期会用一个视频播放器替换
+            .video-group{
+                width: 100%;
+                height: 600px;
+                background: pink;
+            }
+        }
+        .bottom-wrapper{
+            margin-top: 20px;
+            overflow: hidden;
+            .course-detail-wrapper{
+                float: left;
+                width: 700px;
+                .item-group{
+                    background: #fff;
+                    padding: 20px;
+                    .item-title{
+                        color: $mainFontColor;
+                        font-size: 18px;
+                        border-left: 5px solid $themeColor;
+                        padding-left: 16px;
+                    }
+                    .teacher-group{
+                        overflow: hidden;
+                        margin-top: 20px;
+                        .avatar-group{
+                            float: left;
+                            width: 60px;
+                            height: 60px;
+                            img{
+                                // 如果不设置图片宽高，那超过avatar-group设置宽高部分也会显示出来
+                                width: 100%;
+                                height: 100%;
+                                border-radius: 50%;
+                            }
+                        }
+                        .teacher-info{
+                            float: left;
+                            margin-left: 10px;
+                            color: $assistFontColor;
+                            margin-top: 10px;
+                            .teacher-desc{
+                                margin-top: 5px;
+                            }
+                        }
+                    }
+                    .item-content{
+                        margin-top: 20px;
+                        color: rgb(68, 68, 68);
+                        //设置行高，这里行高为字体大小的1.8倍
+                        line-height: 1.8;
+                    }
+                }
+            }
+            .recommend-wrapper{
+                width: 355px;
+                float: right;
+                background: #fff;
+                padding: 20px;
+                box-sizing: border-box;
+                .recommend-title{
+                    color: $mainFontColor;
+                    font-size: 18px;
+                }
+                .course-list{
+                    li{
+                        overflow: hidden;
+                        padding: 20px 0;
+                        border-bottom: 1px solid $lineColor;
+                        .course-info-group{
+                            float: left;
+                            // 如果不指定宽度，那文字就会跑到右边(占据课程缩略图位置)
+                            width: 150px;
+                            height: 90px;
+                            position: relative;
+                            .course-title{
+                                font-size: 16px;
+                                color: $mainFontColor;
+                            }
+                            .teacher{
+                                position: absolute;
+                                left: 0;
+                                right: 0;
+                                bottom: 0;
+                                color: $assistFontColor;
+                            }
+                        }
+                        .thumbnail-group{
+                            float: right;
+                            width: 160px;
+                            height: 90px;
+                            img{
+                                width: 100%;
+                                height: 100%;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

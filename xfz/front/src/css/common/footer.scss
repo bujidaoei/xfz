@@ -1,0 +1,149 @@
+@import "init";
+@import "constants";
+
+// footer部分
+.footer{
+	// 因为footer中所有字体的大小都是一样，所以这里定义一下字体大小
+	font-size: 14px;
+	// 因为footer中几乎所有字体颜色都一样，所以也可以在这里定义一下字体颜色
+	color: #c9c9c9;
+	// 使footer距离中间内容部分20px
+	padding-top: 20px;
+	.top-group{
+		background: #555e67;
+		height: 100px;
+		padding-top: 24px;
+		//是用于告诉浏览器如何计算一个元素是总宽度和总高度
+		//border-box：对元素指定宽度和高度包括了padding和border(content-box则不包括),即上面设置了padding对高度(包括padding的总高度)没有影响，还是100px
+		// 所以，如果没有下面这行代码，那什么设置的height就不包括padding,那top-group盒子的包括padding的总高度就大于100px
+		// 而我们不希望top-group盒子高度因为设置了padding而发生变化，所以选border-box
+		box-sizing: border-box;
+		.top-inner-group{
+			// 不随浏览器宽度变化而变化，为版心宽度
+			width: $pageWidth;
+			// 居中显示
+			margin: 0 auto;
+			// 清除浮动(如果清除浮动的话，那wx-qrcode就不能相对这个盒子做绝对定位了)
+			// 我们把清除浮动代码注释掉发现排版没有任何问题(如果有问题则必须清除浮动且不能相对这个盒子绝对定位)
+			//overflow: hidden;
+			// 作为wx-qrcode这个盒子的相对目标
+			position: relative;
+			.logo-box{
+				width: 168px;
+				height: 54px;
+				float: left;
+				background: url("http://xfz.cn/static/build/images/foot-logo.png");
+				background-repeat: no-repeat;
+				background-size: 100%;
+			}
+			.detail-group{
+				float: left;
+				margin-left: 84px;
+				.line1{
+					// 清除浮动
+					overflow: hidden;
+					.links{
+						float: left;
+						// 清除浮动
+						overflow: hidden;
+						li{
+							float: left;
+							padding: 0 10px;
+							// 第一个li左边不需要padding
+							&:first-of-type{
+								padding-left: 0;
+							}
+							a{
+								color: #c9c9c9;
+							}
+							// 每个li标签右侧添加竖线
+							border-right: 1px solid #c9c9c9;
+							// 最右边的li标签不需要添加竖线
+							&:last-of-type{
+								border-right: none;
+							}
+						}
+					}
+					.about-us{
+						float: left;
+						margin-left: 40px;
+						.title{
+							float: left;
+						}
+						// 微信微博
+						.social-group{
+							float: left;
+							// 清除浮动
+							overflow: hidden;
+							li{
+								float: left;
+								color: #fff;
+								.text{
+									margin-left: 30px;
+								}
+							}
+							.weixin{
+								background: url("https://www.xfz.cn/static/build/images/wx-icon.png");
+								background-repeat: no-repeat;
+								// 将图片的宽度设置为weixin这个盒子宽度的30%
+								background-size: 30%;
+								// 因为.wx-qrcode是绝对定位，这里想相对微信这个盒子绝对定位
+								// 但是这里不能相对微信这个盒子，因为我们.social-group这个盒子(li标签)清除浮动了，那超出的部分就会隐藏掉
+								// 我们可以以相对top-inner-group这个盒子做绝对定位
+								// position: relative;
+								// 鼠标移到微信上时变成小手形状
+								cursor: pointer;
+								// 当鼠标移到微信上时，显示二维码
+								&:hover .wx-qrcode{
+									display: block;
+								}
+								// 鼠标移到微信上时显示的图片盒子
+								.wx-qrcode{
+									width: 204px;
+									height: 204px;
+									background: url("https://www.xfz.cn/static/build/images/wxQr.jpg");
+									background-size: 100%;
+									// 改为绝对定位，绝对定位是想放在哪就放在哪
+									position: absolute;
+									right: 360px;
+									top: -220px;
+									// 二维码默认情况(鼠标没有移到微信上时)隐藏起来
+									display: none;
+								}
+							}
+							.weibo{
+								margin-left: 20px;
+								background: url("https://www.xfz.cn/static/build/images/xl-icon.png");
+								background-repeat: no-repeat;
+								background-size: 18%;
+								a{
+									color: #fff;
+								}
+							}
+						}
+					}
+				}
+				.line2{
+					// 清除浮动
+					overflow: hidden;
+					margin-top: 20px;
+					.address{
+						float: left;
+					}
+					.contact{
+						float: left;
+						margin-left: 40px;
+					}
+				}
+			}
+		}
+	}
+	.bottom-group{
+		background: #383e44;
+		height: 60px;
+		// 居中(横向居中)
+		text-align: center;
+		// 垂直居中(行号等于bottom-group盒子高度即可)
+		line-height: 60px;
+	}
+}

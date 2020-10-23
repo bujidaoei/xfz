@@ -1,0 +1,103 @@
+// 可以加.scss也可以不加
+@import "../common/header.scss";
+@import "../common/body";
+@import "../common/footer";
+@import "course_nav";
+
+.main {
+  // 课程内容
+  .wrapper {
+    .course-list {
+      margin-top: 20px;
+      // 采用flex布局
+      display: flex;
+      // 水平方向上从左到右
+      flex-direction: row;
+      // 指定wrapper会自动进行换行(nowrap是缩小每个元素以挤到同一行)
+      flex-wrap: wrap;
+      // 指定对齐方式，space-between：两端对齐，项目之间的间隔相等
+      justify-content: space-between;
+      li {
+        // 高度抽取成变量便于后面维护(不用多出修改，只需修改这变量即可)
+        // 整个课程盒子的高度
+        $courseItemHeight: 280px;
+        // 课程图片的高度
+        $thumbnailHeight: 158px;
+        // 为给thumbnall-group指定100%宽度做铺垫
+        width: 278px;
+        height: $courseItemHeight;
+        //background: #fff;
+        //使得每行间距大一点
+        margin-bottom: 20px;
+        .thumbnail-group {
+          // 为给img指定100%宽度做铺垫
+          width: 100%;
+          // 图片高度指定一个具体值即可
+          height: $thumbnailHeight;
+          img {
+            // 想让课程图片宽高正好适合一个thumbnall-group盒子的宽度，所以要采用100%的方式来指定
+            // 课程图片指定100%的宽度，而100%是相对父盒子(这里是li标签)，所以要先给li标签指定一个宽度
+            width: 100%;
+            height: 100%;
+          }
+        }
+        .course-info {
+          padding: 16px;
+          box-sizing: border-box;
+          width: 100%;
+          // 为什么要指定高度？做为一个有css的工程师，要能看到整个布局
+          // 因为价格会挨着course-info盒子的底部，那就要采用绝对定位，
+          // 如果不指定course-info盒子高度的话，那价格就会紧挨在课程老师名字的下面(就会不怎么美观)
+          // 而如果指定一个比较高且合适的高度的话，价格就会离课程老师名字有一段距离(这样比较美观)
+          // 下面的减号前要有空格，否则就以为变量名是‘$courseItemHeight-’而报错
+          height: $courseItemHeight - $thumbnailHeight;
+          // .price-group价格盒子相对.course-info课程信息盒子盒子做绝对定位
+          position: relative;
+          // 有人可能会问，修改a标签的字体颜色不是要放到a标签中修改吗
+          // 因为html中，.title本身就处于a标签中了，因此可以直接在.title中修改
+          .title {
+            color: $mainFontColor;
+          }
+          .author {
+            margin-top: 10px;
+            color: $assistFontColor;
+            font-size: 14px;
+          }
+          .price-group {
+            position: absolute;
+            left: 16px;
+            right: 16px;
+            bottom: 16px;
+            // 使得文字靠在.price-group价格盒子的右侧
+            // 由于span是行内元素，想要使行内元素靠左/中/右，指定text-align即可
+            text-align: right;
+            .free {
+              color: rgb(126, 211, 33);
+            }
+            .pay {
+              color: rgb(245, 74, 74);
+            }
+          }
+        }
+        // 只需要加两个空li标签，就可以解决两端对齐格式不正确问题
+        // 比如当课程数量为6时(6个li标签)，由于flex布局，指定了对齐方式(space-between)为两端对齐，所以第5门课程在最左侧，第6门课程在最右侧，
+        // 那为了解决这个问题，在最后就添加两个空的li标签(凑成8个li标签)，这样第6门课就紧挨第5门课了，但是存在下面两个问题。
+
+        // 问题一，当鼠标移到有课程的li标签和空的li标签时，都会产生阴影(而我们只希望在有课程的li标签产生阴影)
+        // 于是就在里标签下(a标签外)再套一个div盒子，为什么在li标签下还加了一个div盒子，然后再在div盒子里面放一个a标签？
+        // 为了区分当鼠标移到li标签上时，有课程内容(有div盒子)的li标签显示阴影，而没有课程内容的li标签不显示阴影
+        &:hover .test1{
+          // 使得鼠标移到课程上时有阴影效果
+          // 第一个参数是水平阴影，正值向右偏，负值向左偏，如果想要不左右偏移，则值为0，那想要看到阴影效果就要设置blue模糊值大一点
+          box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+        }
+        // 问题二，此时空的li标签和包含课程的li标签的背景颜色一样(而我们希望包含课程的li标签是纯白，空的li标签是淡灰色(主背景颜色))
+        // 这也是加了div的方便之处，由于空的li标签里面没有div盒子，
+        // 于是就对div盒子特殊处理(即有课程(有div盒子)的li标签颜色为纯白，而空的li标签背景颜色不进行设置(与主背景颜色一样))
+        .test1{
+          background: #fff;
+        }
+      }
+    }
+  }
+}

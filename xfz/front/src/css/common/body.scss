@@ -1,0 +1,188 @@
+@import "init";
+@import "constants";
+
+body{
+	background: #f2f2f2;
+}
+
+//中间内容(要自己补充的地方)
+.main{
+	width: 100%;
+	// 由于导航条(header.scss)是固定定位，即脱离了文档流(相当于悬浮在浏览器上面)，
+	// 那要使body部分不被导航条遮住，就要手动指定一个margin-top(距离浏览器顶部的距离)
+	margin-top: $navHeight+20px;
+	.wrapper{
+		width: $pageWidth;
+		// 居中
+		margin: 0 auto;
+		// 如果里面的盒子都是浮动的，那为了避免外面的盒子就获取不到里面盒子的高度的情况，就要清楚浮动
+		// 清除浮动后，就可以获取内部盒子高度，这里内部盒子高度为500px，所以wrapper盒子高度也是500px
+		// 当然可以手动设置wrapper高度为其它值(如果值如600px,则wrapper盒子高度就是600px，如果值如300，那超出wrapper盒子部分的内部盒子高度将会隐藏)
+		overflow: hidden;
+		.main-content-wrapper{
+			float: left;
+			width: $mainBoxWidth;
+			// 下面是其它scss自己要补充的内容
+        }
+	}
+}
+
+// 中间内容侧边栏部分
+// 这里就不继续放到上面的.main来写了，因为上面代码已经比较多了，所以分出来写
+.main{
+	.wrapper{
+		.sidebar-wrapper{
+			float: right;
+			width: $sideBarWidth;
+			background: #fff;
+			// 在线课堂
+			.title-group {
+				// 上下左右都要20px的内边距
+				padding: 20px;
+				// 如果里面的盒子都是浮动的，那为了避免外面的盒子就获取不到里面盒子的高度的情况，就要清楚浮动
+				overflow: hidden;
+				.title {
+					float: left;
+					font-size: 18px;
+					color: #212121;
+				}
+				.more {
+					float: right;
+					font-size: 14px;
+					// 不是说a标签设置字体颜色要在a标签里设置吗，为什么这里可以不在a标签里设置？
+					color: $themeColor;
+				}
+			}
+			// 广告栏
+			.advertise-group{
+				img{
+					// 广告位的图片只需要设置图片宽度即可，高度高一点低一点没有关系
+					width: 100%;
+				}
+			}
+			// 关注小饭桌
+			.platform-group{
+				.focus-group{
+					// 设置一个左右20px的内边距
+					padding: 0 20px;
+					// 里面的盒子都是浮动的，那为了避免外面的盒子就获取不到里面盒子的高度的情况，就要清楚浮动
+					overflow: hidden;
+					// 左边的知乎微博头条关注板块
+					.left-group{
+						width: 190px;
+						float: left;
+						li{
+							width: 100%;
+							height: 50px;
+							// 使得字体垂直居中(即指定字体行高为li标签的高度即可)
+							line-height: 50px;
+							// 设置背景图片(一张图片包含了3个上下排列的图标)
+							// 背景图片有什么好处？因为是把几个图标合成在一张图片上，那访问网站时只请求一次就行(否则要请求3次)
+							background: url("https://www.xfz.cn/static/build/images/side-icon.png");
+							background-repeat: no-repeat;
+							background-size: 26%;
+							// li标签底部间距
+							margin-bottom: 20px;
+							// 因为此时li标签里面只有a标签，而现在a标签都浮动了，所以在外面要清除浮动
+							overflow: hidden;
+							a{
+								float: left;
+								margin-left: 64px;
+								color: #878787;
+								font-size: 14px;
+							}
+						}
+						// 设置每个li标签显示图片的那部分(以图片左上角为坐标原点)
+						.zhihu{
+							background-position: 0 0;
+						}
+						.weibo{
+							background-position: 0 -63px;
+						}
+						.toutiao{
+							background-position: 0 -122px;
+						}
+					}
+					// 右边的二维码公众号板块
+					.right-group{
+						float: right;
+						width: 108px;
+						background: url("https://www.xfz.cn/static/build/images/wxQr.jpg");
+						background-size: 100%;
+						background-repeat: no-repeat;
+						// 如果不写下面代码那二维码只会显示上面一部分，之所以这样是因为right-group这个盒子
+						// 只会检测里面文字的高度(因为这里是背景图片，不是img图片，背景图片是没有大小的)
+						// 所以给文字指定一个margin-top就会把盒子给撑起来
+						.desc{
+							margin-top: 100px;
+							color: #878787;
+							font-size: 12px;
+						}
+					}
+				}
+			}
+			// 热门推荐(包含标题盒子和新闻列表盒子)
+			.hot-news-group{
+				// 新闻列表盒子(很多li标签)
+				.hot-list-group{
+					// 对具体一条li标签进行样式设置
+					li{
+						// 上0，左右20px，下20px
+						padding: 0 20px 20px;
+						// 由于li标签里的左右两个盒子都是浮动的，为了获取盒子高度，要清除浮动
+						// 如果不清除浮动，那li的高度为0，那上面这行padding也就没有效果
+						overflow: hidden;
+						// 给每个li标签下面设置border分割线
+						border-bottom: 1px solid $lineColor;
+						// 新闻内容盒子
+						.left-group{
+							float: left;
+							width: 204px;
+							height: 72px;
+							// 由于.more是绝对定位，就会去找父级的非静态进位，这里要相对left-group绝对定位
+							position: relative;
+							.title{
+								font-size: 16px;
+								a{
+									color: $mainFontColor;
+									&:hover{
+										color: $themeColor;
+									}
+								}
+							}
+							//使得底部时间栏处于盒子底部(用绝对定位比较好做)
+							.more{
+								position: absolute;
+								left: 0;
+								right: 0;
+								bottom: 0;
+								font-size: 12px;
+								// 为什么这里可以不用清除浮动？(好像可以获取子盒子高度)
+								//overflow: hidden;
+								.category{
+									float: left;
+									color: $themeColor;
+								}
+								.pub-time{
+									float: right;
+									color: $assistFontColor;
+								}
+							}
+						}
+						// 新闻图片盒子
+						.right-group{
+							float: right;
+							width: 102px;
+							height: 72px;
+							img{
+								// 图片大小和right-group盒子大小保持一样
+								width: 100%;
+								height: 100%;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

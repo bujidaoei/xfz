@@ -1,0 +1,79 @@
+// 由于新闻主页(news/index.html)和查询页面(search/search.html)都要用到新闻列表的样式，所以就抽取出来，
+// @mixin 允许我们定义一个可以在整个样式表中重复使用的样式
+// @include 指以将混入(@mixin)(即这定义的news_list）引入到文档中(index.scss第163行)
+@mixin news_list(){
+	li{
+		// 新闻内容与li标签这个盒子上下左右都有20px的内边距
+		padding: 20px;
+		// 底部边宽
+		border-bottom: 1px solid #eee;
+		// 如果里面的盒子都是浮动的，那为了避免外面的盒子就获取不到里面盒子的高度的情况，就要清楚浮动
+		// 获取不到高度，其实li标签盒子高度就为0，那这些新闻内容就会溢出到盒子外面，可以通过指定背景颜色来查看清除浮动前后li标签盒子高度变化
+		//background: pink;
+		overflow: hidden;
+		// 新闻图片盒子浮动到左侧
+		.thumbnail-group{
+			float: left;
+			height: 162px;
+			width: 226px;
+			// 使得图片大小正好匹配新闻图片盒子大小
+			img{
+				width: 100%;
+				height: 100%;
+			}
+		}
+		// 新闻内容盒子浮动到右侧
+		.news-group{
+			float: right;
+			width: 504px;
+			// 左右盒子高度一致，这样更加整洁美观
+			height: 162px;
+			// 新闻块的时间这栏一直处于最下面，所以用绝对定位比较好做，而如果设置了绝对定位，
+			// 就会去找父级的非静态定位(这里是相对定位)，这里我们想让时间这栏相对新闻内容盒子绝对定位，
+			position: relative;
+			// 新闻标题
+			.title{
+				font-size: 22px;
+				// 给a标签字体设置字体颜色要在a标签里设置才有效果
+				a{
+					color: #212112;
+					// 当鼠标移到新闻标题上面时是另一中颜色
+					&:hover{
+						color: $themeColor;
+					}
+				}
+			}
+			// 新闻描述信息
+			.desc{
+				color: #878787;
+				font-size: 14px;
+				// 距离新闻标题盒子10px
+				margin-top: 10px;
+			}
+			// 时间这一栏
+			.more{
+				// 时间这一栏一直处于新闻内容盒子最底部，因此用绝对定位比较好做
+				position: absolute;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				font-size: 14px;
+				color: #878787;
+				// 新闻分类盒子
+				.category{
+					color: $themeColor;
+				}
+				// 时间盒子向右浮动
+				.pub-time{
+					float: right;
+					// 时间盒子左侧距离作者盒子20px
+					margin-left: 20px;
+				}
+				// 作者盒子也向右浮动
+				.author{
+					float: right;
+				}
+			}
+		}
+	}
+}

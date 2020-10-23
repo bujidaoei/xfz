@@ -1,0 +1,80 @@
+{% extends 'base/front_base.html' %}
+{% load news_filters %}
+
+{% block title %}
+    新闻详情页
+{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/news/news_detail.min.css' %}">
+    <script src="{% static 'arttemplate/template-web.js' %}"></script>
+    <script src="{% static 'js/news_detail.min.js' %}"></script>
+<script id="comment-item" type="text/html">
+{% verbatim %}
+    <li>
+        <div class="comment-info">
+            <img src="https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2264391170,159764134&fm=26&gp=0.jpg" alt="" class="avater">
+            <span class="author">{{ comment.author.username }}</span>
+            <span class="pub-time">{{ comment.pub_time|timeSince }}</span>
+        </div>
+        <p class="comment-content">{{ comment.content }}</p>
+    </li>
+{% endverbatim %}
+</script>
+{% endblock %}
+
+{% block main %}
+    <div class="main">
+        <div class="wrapper">
+            <div class="main-content-wrapper">
+                <div class="news-wrapper">
+                    <h1 class="title">{{ news.title }}</h1>
+                    <div class="news-info">
+                        <div class="info-group">
+                            <span class="author">{{ news.author.username }}</span>
+                            <span class="pub-time">{{ news.pub_time|time_since }}</span>
+                            <span class="category">{{ news.category.name }}</span>
+                        </div>
+                        <div class="share-group">
+                            <span>分享至：</span>
+                            <a class="weixin share-item"></a>
+                            <a href="#" class="weibo share-item"></a>
+                        </div>
+                    </div>
+                    <article class="article">
+                        <img src="{{ news.thumbnail }}" alt="文章图片">
+                        <!--由于我们采用富文本编辑器，那为了文章内容更加美观我们给内容做如加粗，颜色，居中等，实际是给文章内容添加了js的一些标签，
+                        而在内容中出现的这些js标签，浏览器就会认为是不安全的，所以不进行渲染，而是以文本内容进行展示(很丑)，
+                        那这里我们就用safe来告诉浏览器说，这些js标签是安全的，那浏览器就会将这些js标签进行渲染了-->
+                        {{ news.content|safe }}
+                    </article>
+                </div>
+                <div class="comment-wrapper">
+                    <h3 class="title">文章评论（0）</h3>
+                    <textarea name="comment" {% if user.is_authenticated %} class="comment-textarea logined-textarea" placeholder="请输入评论~"
+                    {% else %} class="comment-textarea nologin-textarea" placeholder="立即登录，参与评论~"{% endif %}></textarea>
+                    <div class="submit-btn-group">
+                        <button class="submit-btn" data-news-id="{{ news.pk }}">立即评论</button>
+                    </div>
+                    <ul class="comment-list">
+                        {% for comment in news.comments.all %}
+                            <li>
+                                <div class="comment-info">
+{#                                    <div class="avater">#}
+{#                                        <img src="https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2264391170,159764134&fm=26&gp=0.jpg" alt="">#}
+{#                                    </div>#}
+                                    <img src="https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2264391170,159764134&fm=26&gp=0.jpg" alt="" class="avater">
+{#                                    <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1528129845916&di=536993042d5223862f8c4ab157ba6e72&imgtype=0&src=http%3A%2F%2Fpic1.ipadown.com%2Fimgs%2F201206120933354195.jpg" alt="" class="avatar">#}
+                                    <span class="author">{{ comment.author.username }}</span>
+                                    <span class="pub-time">{{ comment.pub_time|time_since }}</span>
+                                </div>
+                                <p class="comment-content">{{ comment.content }}</p>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            {% include 'common/sidebar.html' %}
+        </div>
+    </div>
+{% endblock %}

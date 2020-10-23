@@ -1,0 +1,154 @@
+@import "constants.scss";
+@import "init.scss";
+@import "header";
+body{
+    background: pink;
+}
+
+//遮罩
+.mask-wrapper{
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.7);
+    // 原先是hidden(将超出部分隐藏掉)，这里scoll是超出部分不隐藏，而是可以滚动显示，
+    // overflow: scroll是上下左右都可以滚动，而这里我们只想在上下滚动，所以用overflow-y
+    // overflow: scroll;
+    overflow-y: scroll;
+    // 默认情况下不显示(即没有点击登录/注册按钮时默认不显示登录/注册界面)
+    display: none;
+    // z-index越大，界面越显示在最上面(z-index默认为0，由于前面我们设置导航条的z-index为99，那为了登录界面显示在导航条上面，就哟要一个更大的值)
+    z-index: 100;
+
+    .auth-wrapper{
+        $authWrapperHeight: 520px;
+        $authWrapperWidth: 400px;
+        width: $authWrapperWidth;
+        height: $authWrapperHeight;
+        //background: #fff;
+        // 下面5行代码是让登录/注册界面不管浏览器界面宽高比怎么变，都显示在网页的中间
+        position: absolute;
+        // 登录/注册页面顶部距离浏览器顶部距离为当前浏览器高度的50%
+        top: 50%;
+        left: 50%;
+        // 如果不写下面两行代码，那是以登录/注册界面左上角为锚点，而我想让界面的中心点为锚点
+        margin-left: -$authWrapperWidth/2;
+        margin-top: -$authWrapperHeight/2;
+        .close-wrapper{
+            width: 100%;
+            height: 40px;
+            background: #fff;
+            .close-btn{
+                // 由于span是行内元素(不可以设置宽高)，所以改成行内块元素
+                // 行内特性：比如指定到左边和右边；块特性：可以设置宽高
+                display: inline-block;
+                width: 30px;
+                height: 30px;
+                float: right;
+                margin-top: 10px;
+                color: $assistFontColor;
+                cursor: pointer;
+                // 如果想要使得叉号更加大点可以设置font-size
+                //font-size: 20px;
+            }
+        }
+        .auth-inner-wrapper{
+            width: 100%;
+            height: $authWrapperHeight - 40px;
+            position: relative;
+            // 因为scroll-wrapper的宽度是$authWrapperWidth*2，而我们想要超出部分隐藏掉
+            overflow: hidden;
+            .scroll-wrapper{
+                width: $authWrapperWidth*2;
+                //height: 100%;
+                position: absolute;
+                top: 0;
+                left: 0;
+                //background: #fff;
+                // 将登陆页面和注册页面公共css抽取出来
+                .auth-group{
+                    width: $authWrapperWidth;
+                    padding: 0 20px 20px;
+                    box-sizing: border-box;
+                    .top-group{
+                        height: 36px;
+                        border-bottom: 1px solid $lineColor;
+                        // .title有下边，如果不指定行高的话下边距就会紧贴请登录/请注册字体，
+                        line-height: 34px;
+                        .title{
+                            float: left;
+                            color: $mainFontColor;
+                            border-bottom: 3px solid $themeColor;
+                        }
+                        .switch{
+                            float: right;
+                            color: $themeColor;
+                        }
+                    }
+                    .form-group{
+                        margin-top: 20px;
+                        .input-group{
+                            margin-bottom: 20px;
+                            height: 40px;
+                            .form-control{
+                                border: 1px solid #ccc;
+                                // 输入框里内容的内边距
+                                padding: 10px;
+                                width: 100%;
+                                box-sizing: border-box;
+                                height: 40px;
+                                outline: none;
+                            }
+                            .remember-label{
+                                font-size: 14px;
+                            }
+                            .submit-btn{
+                                width: 100%;
+                                height: 40px;
+                                background: $themeColor;
+                                border: none;
+                                color: #fff;
+                                cursor: pointer;
+                            }
+                            .short-input-group{
+                                width: 250px;
+                                float: left;
+                            }
+                            .input-group-addon{
+                                float: right;
+                                width: 100px;
+                                .sms-captcha-btn{
+                                    width: 100%;
+                                    height: 40px;
+                                    border: 1px solid $themeColor;
+                                    color: $themeColor;
+                                    // 行内元素要设置宽高，要先转为行内块元素
+                                    display: inline-block;
+                                    text-align: center;
+                                    line-height: 40px;
+                                    box-sizing: border-box;
+                                    cursor: pointer;
+                                }
+                                // 短信验证码按钮暂时不可用
+                                .disabled{
+                                    color: #ccc;
+                                    border-color: #ccc;
+                                }
+                            }
+                        }
+                    }
+                }
+                .signin-group{
+                    float: left;
+                    background: #fff;
+                }
+                .signup-group{
+                    float: left;
+                    background: #fff;
+                }
+            }
+        }
+    }
+}

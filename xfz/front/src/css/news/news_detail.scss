@@ -1,0 +1,183 @@
+// 可以加.scss也可以不加
+@import "../common/header.scss";
+@import "../common/body";
+@import "../common/footer";
+
+.main{
+  .wrapper{
+    .main-content-wrapper{
+      background: #fff;
+      padding: 20px;
+      box-sizing: border-box;
+      // 新闻部分
+      .news-wrapper{
+        // 新闻标题
+        .title{
+          color: $mainFontColor;
+          font-size: 24px;
+          // 数值越大，字体越粗(只能是整百数值，100-800)
+          font-weight: 400;
+        }
+        // 新闻信息
+        .news-info{
+          overflow: hidden;
+          margin-top: 20px;
+          color: $assistFontColor;
+          font-size: 14px;
+          // 使文字居中和图片都居中(现在文字在图片偏上一点)，行高与高度一致即可(这里图片高28px所以设置行高和高度都为28px)(选子盒子中最高盒子的高度)
+          // 指定行高要指定下面整栏的行高，如果单纯指定右边盒子行高的话，那左边文字和右边文字就不处于同一水平线了
+          $newsInfoHeight: 28px;
+          line-height: 28px;
+          height: $newsInfoHeight;
+          .info-group{
+            float: left;
+            .pub-time{
+              margin-left: 20px;
+            }
+            .category{
+              margin-left: 20px;
+              // 设置背景颜色
+              background: $themeColor;
+              color: #fff;
+              padding: 0 5px;
+              border-radius: 2px;
+            }
+          }
+          .share-group{
+            float: right;
+            overflow: hidden;
+            span{
+              float: left;
+            }
+            // .weixin和.weibo里面有很多重复的代码，因此把重复代码抽取出来
+            .share-item{
+              // 如果不指定宽高的话，那这个a标签的宽高就为0
+              width: 28px;
+              height: 28px;
+              float: left;
+              // background与background-image区别：
+              // background:是简写，除url外，后面还可以设置图片的其他属性，用空格隔开
+              // background-image:url就只能接图片的路径这一个属性。
+              background-image: url("https://www.xfz.cn/static/build/images/share.png");
+              background-size: 240%;
+              background-repeat: no-repeat;
+            }
+            // 微信图标
+            .weixin{
+              float: left;
+
+            }
+            // 微博图标
+            .weibo{
+              background-position: -39px 0;
+              margin-left: 10px;
+            }
+          }
+        }
+        // 新闻内容(文本样式必须要自己写)
+        .article{
+          margin-top: 20px;
+          // 如果文章有图片，那让图片最大宽度都不超过外面盒子的宽高
+          img{
+            max-width: 100%;
+            //width: 100%;
+            //height: 100%;
+          }
+        }
+      }
+      // 评论部分
+      .comment-wrapper{
+        border-top: 1px solid $lineColor;
+        padding-top: 20px;
+        .title{
+          color: $mainFontColor;
+          font-size: 18px;
+          font-weight: 400;
+        }
+        .comment-textarea{
+          margin-top: 10px;
+          width: 100%;
+          // 不能通过鼠标拖动来改变size
+          resize: none;
+          outline: none;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          font-size: 14px;
+          padding: 6px 10px;
+          box-sizing: border-box;
+        }
+        .nologin-textarea{
+          height: 40px;
+          // 想让“立即登录，参与评论~”字样上下居中，只需要设置行高等于盒子高度(盒子内容)即可
+          // 而由于前面设置了border，padding和box-sizing，所以真正的内容高度并不是40px，而是40-6*2-1*2=26px
+          line-height: 26px;
+          // 此时评论框右侧有滚动条(原因是有些东西到框显示区域之外了)，想取出滚动条，
+          // 需要清除浮动(把超出部分隐藏掉，这样就不会有超出显示区域外的内容了)
+          overflow: hidden;
+        }
+        .logined-textarea{
+          height: 80px;
+        }
+        .submit-btn-group{
+          // 想让submit-btn-group盒子里的button跑到右边，
+          // 由于button是行内元素，只需要设置button外面的盒子text-align: right即可
+          text-align: right;
+          margin-top: 14px;
+          .submit-btn{
+            background: $themeColor;
+            border: none;
+            // 可以增大大或减小按钮大小(因为padding默认是向外设置，除非指定box-sizing: border-box;)
+            padding: 10px 20px;
+            color: #fff;
+            border-radius: 3px;
+            cursor: pointer;
+          }
+        }
+        .comment-list{
+          margin-top: 20px;
+          li{
+            border-bottom: 1px solid $lineColor;
+            // padding-bottom：是指控件中内容距离控件底边距离(内边距)
+            // margin-bottom：是指控件边以外空下的距离(外边距)
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+            .comment-info{
+              // 此时“这是第一条评论”跑到上面去了(头像旁边)，这是因为里面的盒子都是浮动的，会产生浮动差线，所以要清除浮动
+              overflow: hidden;
+              // 作者名居中垂直显示
+              height: 40px;
+              line-height: 40px;
+              color: $assistFontColor;
+              font-size: 16px;
+              // 头像(html和css还是按照course_detail里的头像部分来写吧，
+              // 应该在img外面再套个div,这里给img设置了两次宽高,奇奇怪怪)
+              .avater{
+                float: left;
+                width: 40px;
+                height: 40px;
+              }
+              img{
+                 //max-width: 100%;
+                width: 100%;
+                height: 100%;
+                // 显示圆形头像(也可放到。avater中)
+                border-radius: 50%;
+                }
+              .author{
+                float: left;
+                margin-left: 20px;
+              }
+              .pub-time{
+                float: right;
+              }
+            }
+            .comment-content{
+              margin-left: 60px;
+              margin-top: 10px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

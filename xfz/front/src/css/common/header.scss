@@ -1,0 +1,121 @@
+@import "init";
+@import "constants";
+
+// 导航条
+.header{
+	// 跟随浏览器而动，浏览器多宽，它就有多宽
+	width: 100%;
+	height: $navHeight;
+	background: #3a3a3a;
+	// 使导航条一直处于页面顶部（而不会随着鼠标的上下移动而消失）(下面4行代码要结合使用)
+	position: fixed;
+	// 改为固定定位后，还要指定距离浏览器的顶部，左右距离为多少
+	left: 0;
+	top: 0;
+	right: 0;
+	// 解决鼠标上下滚动，轮播图片会遮住导航条问题，解决办法就是设置z-index(让导航条在轮播图上面即可)(轮播图的z-index设置为0)
+	z-index: 100;
+	.container{
+		width: $pageWidth;
+		// 与外面盒子header高度一致即可
+		height: 100%;
+		// container盒子居中
+		margin: 0 auto;
+		// 清除在里面盒子指定margin-top导致的外部盒子出现的顶部距离
+		// 如果里面的盒子都是浮动的，那为了避免外面的盒子就获取不到里面盒子的高度的情况，就要清楚浮动
+		// 因为上面指定了具体高度，所以这里指定overflow没有意义
+		// overflow: hidden;
+		.logo-box{
+			width: 140px;
+			height: 49px;
+			// no-repeat：使图片没有重复
+			background: url("http://www.xfz.cn/static/build/images/logo.png") no-repeat;
+			margin-top: 8px;
+			// 使得logo-box不占据一整行而导致新添加元素(这里是导航条菜单)只能排到logo-box下面
+			float: left;
+			a{
+				// a标签是行内元素，如果里面没有内容(没设置宽度？)的话，默认宽高为0，所以要设置宽高，
+				// 但是只有块级元素才能设置宽高，因此要先把a标签变成块级元素
+				display: block;
+				width: 100%;
+				height: 100%;
+			}
+		}
+		.nav{
+			margin-left: 128px;
+			// 因为logo-box是浮动的，要想距离logo-box128px边距(即使.nav的margin-left生效)，就要让nav也浮动起来
+			float: left;
+			// 和logo-box与nav的原理一样，只需要让每个li标签浮动起来就可以让所有li标签占据一行
+			li{
+				float: left;
+				margin-right: 40px;
+				// 使得导航条上下居中的两行代码(文字行高(行高就是文字高度)等于导航条高度)
+				line-height: $navHeight;
+				height: $navHeight;
+				// 向内设延伸(即边宽出现在盒子里面)(默认为content-box：向外延伸)
+				box-sizing: border-box;
+				a{
+					color: #fff;
+				}
+				// 在嵌套的子选择器中，需要使用父选择器，通过&来表示(也可写成li.active)
+				&.active{
+					// 设置选中a标签的底宽
+					border-bottom: 5px solid #d2691e;
+				}
+			}
+		}
+		.auth-box{
+			// 向右浮动
+			float: right;
+			// 垂直居中
+			line-height: $navHeight;
+			height: $navHeight;
+			// 指定登录，注册间的/的颜色
+			color: #fff;
+			position: relative;
+			.iconfont{
+				color: #fff;
+				font-size: 20px;
+			}
+			a{
+				// 指定登录，注册颜色(但是/颜色无效)
+				color: #fff;
+			}
+			// 鼠标移到登录后的按钮上面时会显示一个对话框(对话框包括如管理系统，订单详情，退出登录等选项)
+			.user-more-box{
+                background: #fff;
+                width: 140px;
+				// 不能把高度写死，因为如果是公司员工，那鼠标移到用户头像（圆登录/注册按钮）上时会多一个管理系统栏，这样就比不上公司员工的高度要高
+                //height: 90px;
+                position: absolute;
+				// 设置阴影，h-shadow(水平阴影) v-shadow blur spread(影的大小) color inset(阴影在边框内，默认在边框外);
+                box-shadow: 0 3px 4px rgba(0, 0, 0, 0.2);
+                border-radius: 5px;
+                top: 65px;
+                left: 50%;
+                margin-left: -70px;
+                font-size: 14px;
+                z-index: 2;
+                display: none;
+				// 小三角
+                .triangle{
+                    border: solid transparent;
+                    border-width: 10px;
+                    border-bottom-color: #fff;
+                    display: block;
+                    width: 0;
+                    height: 0;
+                    margin-top: -20px;
+                    margin-left: 60px;
+                }
+                a{
+                    text-align: center;
+                    height: 44px;
+                    color: #6d85ac!important;
+                    display: block;
+                    line-height: 44px;
+                }
+            }
+		}
+	}
+}

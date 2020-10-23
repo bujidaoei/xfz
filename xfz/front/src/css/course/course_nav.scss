@@ -1,0 +1,55 @@
+@import "../common/init";
+@import "../common/constants";
+
+.main{
+  // 因为在common/body.scss中指定了main这个盒子距离顶部$navHeight+20px，
+  // 而我们这里不需要这20px的高度，所以这里要重新设置一下
+  margin-top: $navHeight;
+  // 课程导航条
+  .course-nav {
+    $courseNavHeight: 54px;
+    width: 100%;
+    height: 54 $courseNavHeight;
+    // box-shadow：h-shadow v-shadow blur spread color inset(外部/内部阴影)
+    // rgba()：给颜色指定透明度(a是alpha,透明度的意思)
+    box-shadow: 0 4px 5px rgba(0, 0, 0, 0.1);
+
+    .nav-container {
+      width: $pageWidth;
+      height: $courseNavHeight;
+      margin: 0 auto;
+      // nav-container盒子里面的盒子都是浮动的，按理应该清除浮动，但这里可以不设置浮动清除
+      // 原因是nav-container盒子已经设置了高度，那不设置清除浮动的话，那nav-container盒子的高度就永远为$courseNavHeight
+      //overflow: hidden;
+      // 设置垂直居中(行高等于高度即可),这里由于里面的导航栏盒子都要垂直居中，就把设置放到外面来(省得每个盒子都要设置一遍)
+      line-height: $courseNavHeight;
+
+      .title {
+        float: left;
+        color: #696969;
+        font-size: 24px;
+      }
+
+      .nav-list {
+        float: left;
+        margin-left: 100px;
+
+        li {
+          float: left;
+          margin-right: 40px;
+
+          a {
+            color: #888;
+          }
+
+          // 设置选中字体颜色(这里的acticve是class,所以用.号)
+          &.active {
+            a {
+              color: $mainFontColor;
+            }
+          }
+        }
+      }
+    }
+  }
+}
